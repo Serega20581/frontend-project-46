@@ -22,6 +22,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "codeclimate-test-reporter": "^0.5.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
