@@ -17,10 +17,10 @@ const genDiff = (filepath1, filepath2) => {
   const sortedKeys = _.sortBy(keys);
 
   const diff = sortedKeys.map((key) => {
-    if (!Object.hasOwn(data2, key)) {
+    if (!Object.prototype.hasOwnProperty.call(data2, key)) {
       return `- ${key}: ${data1[key]}`;
     }
-    if (!Object.hasOwn(data1, key)) {
+    if (!Object.prototype.hasOwnProperty.call(data1, key)) {
       return `+ ${key}: ${data2[key]}`;
     }
     if (data1[key] !== data2[key]) {
