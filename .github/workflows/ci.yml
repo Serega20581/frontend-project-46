@@ -23,3 +23,9 @@ jobs:
 
       - name: Run linter
         run: npm run lint
+
+      - name: Upload coverage to CodeClimate
+        uses: codeclimate/test-reporter@v2
+        with:
+          coverageCommand: npm test -- --coverage
+          token: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
