@@ -19,7 +19,13 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --coverage
 
       - name: Run linter
         run: npm run lint
+
+      - name: Upload coverage to CodeClimate
+        uses: codeclimate/test-reporter@v2
+        with:
+          coverageCommand: npm test -- --coverage
+          token: ${{ff94d311a0d4111af41efe05fb8d30fc3c9f0d9222de9e4ebaf91febdbf94928}}
