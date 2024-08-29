@@ -3,27 +3,26 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          java-version: '11'
+          node-version: '14'
 
-      - name: Build with Gradle
-        run: ./gradlew clean build jacocoTestReport
+      - name: Install dependencies
+        run: npm install
 
-      - name: Upload code coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: jacoco-report
-          path: build/reports/jacoco/test/html
-          env:
+      - name: Run tests
+        run: npm test
+
+      - name: Upload coverage to CodeClimate
+        env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           JACOCO_SOURCE_PATH: app/src/main/java
         with:
