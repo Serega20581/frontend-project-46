@@ -7,7 +7,8 @@
     "gendiff": "./bin/gendiff.js"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
+    "coverage": "jest --coverage",
     "lint": "eslint .",
     "start": "gendiff"
   },

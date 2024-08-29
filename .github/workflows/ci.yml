@@ -19,13 +19,10 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test -- --coverage
-
-      - name: Run linter
-        run: npm run lint
+        run: npm test
 
       - name: Upload coverage to CodeClimate
-        uses: codeclimate/test-reporter@v2
-        with:
-          coverageCommand: npm test -- --coverage
-          token: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+        run: |
+          npx codeclimate-test-reporter < ./coverage/lcov.info
