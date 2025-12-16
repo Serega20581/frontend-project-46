@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>demo-gendiff.cast — preview</title>
+  <style>
+    body { font-family: monospace; background:#1e1e1e; color:#ddd; padding:16px }
+    .screen { background:#000; color:#ddd; padding:12px; border-radius:6px; min-height:200px; white-space:pre-wrap }
+    .controls { margin-top:12px }
+    button { margin-right:8px }
+  </style>
+</head>
+<body>
+  <h2>Превью demo-gendiff.cast</h2>
+  <div id="screen" class="screen"></div>
+  <div class="controls">
+    <button id="play">Play</button>
+    <button id="restart">Restart</button>
+  </div>
+
+  <script>
+    // Встроенный набор кадров, скопирован из demo-gendiff.cast
+    const cast = [
+      [0.0, "o", "gendiff __fixtures__/file1.yml __fixtures__/file2.yml\n"],
+      [0.1, "o", "{\n"],
+      [0.2, "o", "  - follow: false\n"],
+      [0.3, "o", "    host: hexlet.io\n"],
+      [0.4, "o", "  - proxy: 123.234.53.22\n"],
+      [0.5, "o", "  - timeout: 50\n"],
+      [0.6, "o", "  + timeout: 20\n"],
+      [0.7, "o", "  + verbose: true\n"],
+      [0.8, "o", "}\n"]
+    ];
+
+    const screen = document.getElementById('screen');
+    let timeouts = [];
+
+    function play() {
+      clearAll();
+      const start = performance.now();
+      for (const frame of cast) {
+        const t = Math.max(0, frame[0] * 1000);
+        const out = frame[2];
+        const id = setTimeout(() => { screen.textContent += out; }, t);
+        timeouts.push(id);
+      }
+    }
+
+    function clearAll() {
+      for (const id of timeouts) clearTimeout(id);
+      timeouts = [];
+      screen.textContent = '';
+    }
+
+    document.getElementById('play').addEventListener('click', play);
+    document.getElementById('restart').addEventListener('click', () => { clearAll(); play(); });
+
+    // авто-старт
+    play();
+  </script>
+</body>
+</html>

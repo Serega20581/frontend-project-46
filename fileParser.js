@@ -1,18 +1,12 @@
-import { readFileSync } from 'fs';
-import path from 'path';
 import _ from 'lodash';
-
-const parseFile = (filepath) => {
-  const absolutePath = path.resolve(filepath);
-  const fileContent = readFileSync(absolutePath, 'utf8');
-  return JSON.parse(fileContent);
-};
+import os from 'os';
+import parse from './parsers/index.js';
 
 const generateDiffLine = (key, value, type) => `${type} ${key}: ${value}`;
 
 const genDiff = (filepath1, filepath2) => {
-  const data1 = parseFile(filepath1);
-  const data2 = parseFile(filepath2);
+  const data1 = parse(filepath1);
+  const data2 = parse(filepath2);
 
   const keys = _.union(Object.keys(data1), Object.keys(data2));
   const sortedKeys = _.sortBy(keys);
@@ -28,12 +22,12 @@ const genDiff = (filepath1, filepath2) => {
       return [
         generateDiffLine(key, data1[key], '-'),
         generateDiffLine(key, data2[key], '+'),
-      ].join('\n');
+      ].join(os.EOL);
     }
     return   `${key}: ${data1[key]}`;
-  }).filter(Boolean).join('\n');
+  }).filter(Boolean).join(os.EOL);
 
-  return `{\n${diff}\n}`;
+  return ` {${os.EOL}${diff}${os.EOL}}`;
 };
 
 export default genDiff;
